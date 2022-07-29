@@ -1,0 +1,10 @@
+/* Responsive container of the svg element */
+.responsive-svg-container {
+  width: 100%;
+  max-width: 1000px;
+}
+
+/* Axis and labels styles */
+#ridgeline .domain {
+  stroke-opacity: 0;
+}

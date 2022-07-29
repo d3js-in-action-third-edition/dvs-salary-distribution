@@ -1,0 +1,2 @@
+# Salary distribution of data visualization practitioners
+Project built along with chapter 6 of [D3.js in Action, 3rd edition](https://www.manning.com/books/d3js-in-action-third-edition). Refer to the exercise files for a breakdown of each step.
