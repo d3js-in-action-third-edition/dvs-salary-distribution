@@ -30,7 +30,7 @@ const getMedianSalary = (salary) => {
 }
 
 // Load data
-d3.csv("../data/earnings_per_role.csv", d => {
+d3.csv("./data/earnings_per_role.csv", d => {
   if (d.pay_annual_USD !== "$240,000 or more") {
     return {
       role: d.role,
