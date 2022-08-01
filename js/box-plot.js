@@ -12,8 +12,8 @@ const drawBoxplot = (data) => {
   /*******************************/
   /*    Declare the constants    */
   /*******************************/
-  const margin = {top: 40, right: 30, bottom: 25, left: 50};
-  const width = 400;
+  const margin = {top: 40, right: 30, bottom: 25, left: 60};
+  const width = 555;
   const height = 500;
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
@@ -105,18 +105,23 @@ const drawBoxplot = (data) => {
   innerChart
     .append("g")
       .call(leftAxis);
+  svg
+    .append("text")
+      .text("Yearly salary (USD)")
+      .attr("x", 0)
+      .attr("y", 20);
   
 
   /******************************/
   /*      Add the boxplots      */
   /******************************/
   const boxplotWidth = 60;
-  const boxplotStrokeWidth = 5;
+  const boxplotStrokeWidth = 4;
   genders.forEach(gender => {
     const boxplotContainer = innerChart
       .append("g")
         .attr("class", `boxplot-${gender}`)
-        .attr("stroke", "black")
+        .attr("stroke", slateGray)
         .attr("stroke-width", boxplotStrokeWidth);
 
     // Append rectangles
@@ -137,7 +142,8 @@ const drawBoxplot = (data) => {
         .attr("x2", xScale(gender) + xScale.bandwidth()/2 + boxplotWidth/2)
         .attr("y1", gender === "Female" ? yScale(femalesQuartiles[1]) : yScale(malesQuartiles[1]))
         .attr("y2", gender === "Female" ? yScale(femalesQuartiles[1]) : yScale(malesQuartiles[1]))
-        .attr("stroke", gender === "Female" ? "orchid" : "darkturquoise");
+        .attr("stroke", gender === "Female" ? womenColor : menColor)
+        .attr("stroke-width", 6);
 
     // Append whiskers
     boxplotContainer

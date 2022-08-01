@@ -22,6 +22,7 @@ const drawPyramid = (data) => {
   // console.log("males bins", malesBins);
   const malesTotal = malesData.length;
   // console.log("total males", malesTotal);
+  console.log("total", malesTotal + femalesTotal);
 
   bins.forEach(bin => {
     const femaleBins = [];
@@ -43,8 +44,8 @@ const drawPyramid = (data) => {
   /*******************************/
   /*    Declare the constants    */
   /*******************************/
-  const margin = {top: 40, right: 30, bottom: 25, left: 50};
-  const width = 400;
+  const margin = {top: 40, right: 30, bottom: 40, left: 60};
+  const width = 555;
   const height = 500;
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
@@ -103,11 +104,22 @@ const drawPyramid = (data) => {
     .append("g")
       .attr("transform", `translate(0, ${innerHeight})`)
       .call(bottomAxisMales);
+  svg
+    .append("text")
+      .text("Percent")
+      .attr("text-anchor", "middle")
+      .attr("x", margin.left + innerWidth/2)
+      .attr("y", height - 3);
 
   const leftAxis = d3.axisLeft(yScale);
   innerChart
     .append("g")
       .call(leftAxis);
+  svg
+    .append("text")
+      .text("Yearly salary (USD)")
+      .attr("x", 0)
+      .attr("y", 20);
   
 
   /******************************/
@@ -117,33 +129,32 @@ const drawPyramid = (data) => {
     .selectAll(".dumbbell-container")
     .data(bins)
     .join("g")
-      .attr("class", "dumbbell-container");
+      .attr("class", "dumbbell-container")
+      .attr("stroke", slateGray)
+      .attr("stroke-width", 2);
 
   dumbbellContainers
     .append("line")
       .attr("x1", d => xScaleFemales(d.females.length / femalesTotal * 100))
       .attr("x2", d => xScaleMales(d.males.length / malesTotal * 100))
       .attr("y1", d => yScale(d.x0 + (d.x1-d.x0)/2))
-      .attr("y2", d => yScale(d.x0 + (d.x1-d.x0)/2))
-      .attr("stroke", "black");
+      .attr("y2", d => yScale(d.x0 + (d.x1-d.x0)/2));
 
-  const circlesRadius = 3.5;
+  const circlesRadius = 5;
   dumbbellContainers
     .append("circle")
       .attr("class", "circle-female")
       .attr("cx", d => xScaleFemales(d.females.length / femalesTotal * 100))
       .attr("cy", d => yScale(d.x0 + (d.x1-d.x0)/2))
       .attr("r", circlesRadius)
-      .attr("fill", "orchid")
-      .attr("stroke", "black");
+      .attr("fill", womenColor);
   dumbbellContainers
     .append("circle")
       .attr("class", "circle-male")
       .attr("cx", d => xScaleMales(d.males.length / malesTotal * 100))
       .attr("cy", d => yScale(d.x0 + (d.x1-d.x0)/2))
       .attr("r", circlesRadius)
-      .attr("fill", "darkturquoise")
-      .attr("stroke", "black");
+      .attr("fill", menColor);
   
 
 };

@@ -28,7 +28,7 @@ const drawRidgeline = (data) => {
   /*******************************/
   /*    Declare the constants    */
   /*******************************/
-  const margin = {top: 40, right: 30, bottom: 25, left: 120};
+  const margin = {top: 40, right: 30, bottom: 25, left: 90};
   const width = 1000;
   const height = 500;
   const innerWidth = width - margin.left - margin.right;
@@ -83,12 +83,18 @@ const drawRidgeline = (data) => {
   /*      Add the axes      */
   /**************************/
   const bottomAxis = d3.axisBottom(xScale)
-    .tickSize(innerHeight * -1)
+    // .tickSize(innerHeight * -1)
     .tickSizeOuter(0);
   innerChart
     .append("g")
-      .attr("transform", `translate(0, ${innerHeight})`)
+      .attr("transform", `translate(0, ${innerHeight - rolesScale.bandwidth()/2})`)
       .call(bottomAxis);
+  svg
+    .append("text")
+      .text("Yearly salary (USD)")
+      .attr("text-anchor", "end")
+      .attr("x", width)
+      .attr("y", height - 5);
 
   const rolesAxis = d3.axisLeft(rolesScale)
     .tickSize(innerWidth * -1)
@@ -127,7 +133,7 @@ const drawRidgeline = (data) => {
       .append("path")
         .attr("class", `area-${role.id}`)
         .attr("d", areaGenerator(role.bins))
-        .attr("fill", "darkolivegreen")
+        .attr("fill", slateGray)
         .attr("fill-opacity", 0.4);
   });
 

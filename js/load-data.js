@@ -40,6 +40,15 @@ d3.csv("./data/earnings_per_role.csv", d => {
   }
 }).then(data => {
   console.log("data", data);
+  // console.log("designers", data.filter(d => d.role === "Designer").length)
+  // console.log("Scientist", data.filter(d => d.role === "Scientist").length)
+  // console.log("Developer", data.filter(d => d.role === "Developer").length)
+  // console.log("Engineer", data.filter(d => d.role === "Engineer").length)
+  // console.log("Journalist", data.filter(d => d.role === "Journalist").length)
+  // console.log("Analyst", data.filter(d => d.role === "Analyst").length)
+  // console.log("Cartographer", data.filter(d => d.role === "Cartographer").length)
+  // console.log("Leadership", data.filter(d => d.role === "Leadership").length)
+  // console.log("Teacher", data.filter(d => d.role === "Teacher").length)
 
   drawHistogram(data);
   drawBoxplot(data);

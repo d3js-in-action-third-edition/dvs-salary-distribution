@@ -12,7 +12,7 @@ const drawHistogram = (data) => {
   /*******************************/
   /*    Declare the constants    */
   /*******************************/
-  const margin = {top: 40, right: 30, bottom: 40, left: 120};
+  const margin = {top: 40, right: 30, bottom: 50, left: 40};
   const width = 1000;
   const height = 500;
   const innerWidth = width - margin.left - margin.right;
@@ -51,34 +51,6 @@ const drawHistogram = (data) => {
     .range([innerHeight, 0])
     .nice();
 
-
-  /**************************/
-  /*      Add the axes      */
-  /**************************/
-  const bottomAxis = d3.axisBottom(xScale)
-    // .tickValues(d3.range(1975, 2020, 5))
-    // .tickSizeOuter(0);
-  innerChart
-    .append("g")
-      .attr("transform", `translate(0, ${innerHeight})`)
-      .call(bottomAxis);
-  svg
-    .append("text")
-      .text("salary (USD)")
-      .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height - 5);
-
-  const leftAxis = d3.axisLeft(yScale);
-  innerChart
-    .append("g")
-      .call(leftAxis);
-  svg
-    .append("text")
-      .text("frequency")
-      .attr("x", 50)
-      .attr("y", 20);
-
   
   /*******************************/
   /*    Append the rectangles    */
@@ -92,10 +64,36 @@ const drawHistogram = (data) => {
       .attr("y", d => yScale(d.length))
       .attr("width", rectWidth)
       .attr("height", d => innerHeight - yScale(d.length))
-      .attr("fill", "darkolivegreen");
+      .attr("fill", slateGray)
+      .attr("stroke", white)
+      .attr("stroke-width", 2);
 
 
+  /**************************/
+  /*      Add the axes      */
+  /**************************/
+  const bottomAxis = d3.axisBottom(xScale)
+    // .tickValues(d3.range(1975, 2020, 5))
+    // .tickSizeOuter(0);
+  innerChart
+    .append("g")
+      .attr("transform", `translate(0, ${innerHeight})`)
+      .call(bottomAxis);
+  svg
+    .append("text")
+      .text("Yearly salary (USD)")
+      .attr("text-anchor", "end")
+      .attr("x", width)
+      .attr("y", height - 5);
 
-  
+  const leftAxis = d3.axisLeft(yScale);
+  innerChart
+    .append("g")
+      .call(leftAxis);
+  svg
+    .append("text")
+      .text("Frequency")
+      .attr("x", 5)
+      .attr("y", 20);
 
 };
