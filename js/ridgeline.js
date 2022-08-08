@@ -21,6 +21,7 @@ const drawRidgeline = (data) => {
       .domain([0, 240000])
       .thresholds(12)
       .value(d => d.salary)(roleData);
+    role["numPeople"] = roleData.length;
   });
   console.log("roles", roles);
 
@@ -72,7 +73,7 @@ const drawRidgeline = (data) => {
     .range([0, innerHeight]);
 
   // Areas vertical scale
-  const supperpositionFactor = 5;
+  const supperpositionFactor = 4;
   const roleVerticalScale = d3.scaleLinear()
     .domain([0, maxHeight])
     .range([0, supperpositionFactor * rolesScale.bandwidth()])
@@ -127,7 +128,10 @@ const drawRidgeline = (data) => {
     const areaGenerator = d3.area()
       .x(d => xScale(d.x0) + (xScale(d.x1) - xScale(d.x0))/2)
       .y0(rolesScale(role.id) + rolesScale.bandwidth()/2)
-      .y1(d => rolesScale(role.id) - roleVerticalScale(d.length) + rolesScale.bandwidth()/2)
+      .y1(d => {
+        // return rolesScale(role.id) - roleVerticalScale(d.length) + rolesScale.bandwidth()/2
+        return rolesScale(role.id) - roleVerticalScale(d.length)/role.numPeople*100 + rolesScale.bandwidth()/2
+      })
       .curve(d3.curveCatmullRom);
     innerChart
       .append("path")
