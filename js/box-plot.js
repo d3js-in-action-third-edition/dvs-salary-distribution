@@ -1,14 +1,5 @@
 const drawBoxplot = (data) => {
 
-  /***************************/
-  /*    Generate the bins    */
-  /***************************/
-  const bins = d3.bin()
-    .domain([0, 240000])
-    .value(d => d.salary)(data);
-  console.log("bins", bins);
-
-
   /*******************************/
   /*    Declare the constants    */
   /*******************************/
@@ -42,34 +33,14 @@ const drawBoxplot = (data) => {
     .domain(genders)
     .range([0, innerWidth]);
 
-
-  const minSalary = bins[0].x0;
-  const maxSalary = bins[bins.length - 1].x1;
-  // Why no a band scale?
+  // Y scale
+  const maxSalary = d3.max(data, d => d.salary);
   const yScale = d3.scaleLinear()
-    .domain([minSalary, maxSalary])
-    .range([innerHeight, 0]);
+    .domain([0, maxSalary])
+    .range([innerHeight, 0])
+    .nice();
 
-  // Quantile scale
-  // const quantileScale = d3.scaleQuantile()
-  //   .domain(data.map(d => d.salary))
-  //   .range([0, 1, 2, 3]);
-  // const quantiles = quantileScale.quantiles();
-  // console.log("quantiles", quantiles);
-  // const median = d3.median(data, d => d.salary);
-  // console.log("median value", median);
-  // const min = d3.min(data, d => d.salary);
-  // const max = d3.max(data, d => d.salary);
-  // console.log("min", min, "max", max)
-
-  // const lowerHalf = data.filter(d => d.salary < median).map(d => d.salary);
-  // const q1 = d3.median(lowerHalf);
-  // console.log("q1", q1)
-  // const upperHalf = data.filter(d => d.salary > median).map(d => d.salary);
-  // const q3 = d3.median(upperHalf);
-  // console.log("q3", q3)
-
-  // Female quantiles
+  // Female quartiles
   const femalesSalaries = data.filter(d => d.gender === "Female").map(d => d.salary);
   const femalesQuartilesScale = d3.scaleQuantile()
     .domain(femalesSalaries)
@@ -77,9 +48,9 @@ const drawBoxplot = (data) => {
   const femalesMin = d3.min(femalesSalaries);
   const femalesMax = d3.max(femalesSalaries);
   const femalesQuartiles = femalesQuartilesScale.quantiles();
-  console.log("females", femalesMin, femalesQuartiles, femalesMax);
+  console.log("boxplot boundaries females", femalesMin, femalesQuartiles, femalesMax);
 
-  // Male quantiles
+  // Male quartiles
   const malesSalaries = data.filter(d => d.gender === "Male").map(d => d.salary);
   const malesQuartilesScale = d3.scaleQuantile()
     .domain(malesSalaries)
@@ -87,8 +58,7 @@ const drawBoxplot = (data) => {
   const malesMin = d3.min(malesSalaries);
   const malesMax = d3.max(malesSalaries);
   const malesQuartiles = malesQuartilesScale.quantiles();
-  console.log("Males", malesMin, malesQuartiles, malesMax);
-
+  console.log("boxplot boundaries males", malesMin, malesQuartiles, malesMax);
 
 
   /**************************/

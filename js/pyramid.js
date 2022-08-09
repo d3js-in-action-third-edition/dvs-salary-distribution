@@ -1,46 +1,5 @@
 const drawPyramid = (data) => {
 
-  /***************************/
-  /*    Generate the bins    */
-  /***************************/
-  const bins = d3.bin()
-    .domain([0, 240000])
-    .value(d => d.salary)(data);
-
-  const femalesData = data.filter(d => d.gender === "Female");
-  // const femalesBins = d3.bin()
-  // .domain([0, 240000])
-  // .value(d => d.salary)(femalesData);
-  // console.log("females bins", femalesBins);
-  const femalesTotal = femalesData.length;
-  // console.log("total females", femalesTotal);
-
-  const malesData = data.filter(d => d.gender === "Male");
-  // const malesBins = d3.bin()
-  // .domain([0, 240000])
-  // .value(d => d.salary)(malesData);
-  // console.log("males bins", malesBins);
-  const malesTotal = malesData.length;
-  // console.log("total males", malesTotal);
-  console.log("total", malesTotal + femalesTotal);
-
-  bins.forEach(bin => {
-    const femaleBins = [];
-    const maleBins = [];
-    bin.forEach(respondent => {
-      if (respondent.gender === "Female") {
-        femaleBins.push(respondent);
-      } else {
-        maleBins.push(respondent);
-      }
-    });
-
-    bin["females"] = femaleBins;
-    bin["males"] = maleBins;
-  });
-  console.log("bins per gender", bins);
-
-
   /*******************************/
   /*    Declare the constants    */
   /*******************************/
@@ -63,6 +22,36 @@ const drawPyramid = (data) => {
   const innerChart = svg
     .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+      
+  /***************************/
+  /*    Generate the bins    */
+  /***************************/
+  const bins = d3.bin()
+    .domain([0, 240000])
+    .value(d => d.salary)(data);
+
+  const femalesData = data.filter(d => d.gender === "Female");
+  const femalesTotal = femalesData.length;
+
+  const malesData = data.filter(d => d.gender === "Male");
+  const malesTotal = malesData.length;
+
+  bins.forEach(bin => {
+    const femaleBins = [];
+    const maleBins = [];
+    bin.forEach(respondent => {
+      if (respondent.gender === "Female") {
+        femaleBins.push(respondent);
+      } else {
+        maleBins.push(respondent);
+      }
+    });
+
+    bin["females"] = femaleBins;
+    bin["males"] = maleBins;
+  });
+  console.log("bins per gender", bins);
 
   
   /****************************/

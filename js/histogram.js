@@ -1,13 +1,4 @@
 const drawHistogram = (data) => {
-  
-  /***************************/
-  /*    Generate the bins    */
-  /***************************/
-  const bins = d3.bin()
-    .domain([0, 240000])
-    .value(d => d.salary)(data);
-  console.log("bins", bins);
-
 
   /*******************************/
   /*    Declare the constants    */
@@ -31,6 +22,15 @@ const drawHistogram = (data) => {
   const innerChart = svg
     .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
+  
+
+  /***************************/
+  /*    Generate the bins    */
+  /***************************/
+  const bins = d3.bin()
+    .domain([0, 240000])
+    .value(d => d.salary)(data);
+  console.log("bins", bins);
 
   
   /****************************/
@@ -39,7 +39,6 @@ const drawHistogram = (data) => {
   // X scale
   const minSalary = bins[0].x0;
   const maxSalary = bins[bins.length - 1].x1;
-  // Why no a band scale?
   const xScale = d3.scaleLinear()
     .domain([minSalary, maxSalary])
     .range([0, innerWidth]);
@@ -72,9 +71,7 @@ const drawHistogram = (data) => {
   /**************************/
   /*      Add the axes      */
   /**************************/
-  const bottomAxis = d3.axisBottom(xScale)
-    // .tickValues(d3.range(1975, 2020, 5))
-    // .tickSizeOuter(0);
+  const bottomAxis = d3.axisBottom(xScale);
   innerChart
     .append("g")
       .attr("transform", `translate(0, ${innerHeight})`)
