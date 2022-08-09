@@ -116,7 +116,7 @@ const drawBoxplot = (data) => {
   /*      Add the boxplots      */
   /******************************/
   const boxplotWidth = 60;
-  const boxplotStrokeWidth = 4;
+  const boxplotStrokeWidth = 3;
   genders.forEach(gender => {
     const boxplotContainer = innerChart
       .append("g")

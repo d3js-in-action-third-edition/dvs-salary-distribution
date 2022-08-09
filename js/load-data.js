@@ -53,6 +53,5 @@ d3.csv("./data/earnings_per_role.csv", d => {
   drawHistogram(data);
   drawBoxplot(data);
   drawPyramid(data);
-  drawRidgeline(data);
   drawSmallMultiples(data);
 });

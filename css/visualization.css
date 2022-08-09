@@ -3,6 +3,11 @@
   width: 100%;
   max-width: 1000px;
 }
+@media screen and (max-width: 596px) {
+  .responsive-svg-container {
+    margin-bottom: 20px;
+  }
+}
 
 /* Axis and labels styles */
 .tick text {
