@@ -123,7 +123,8 @@ const drawSmallMultiples = (data) => {
       return x => Math.abs(x /= bandwidth) <= 1 ? 0.75 * (1 - x * x) / bandwidth : 0;
     }
     const bandwidth = 1;
-    const threshold = d3.range(10000, 240000, 20000);
+    const roundingNumber = 10000;
+    const threshold = d3.range(10000, 240000, roundingNumber);
 
     const lineGenerator = d3.line()
       .x(d => xScale(d[0]))
@@ -133,9 +134,9 @@ const drawSmallMultiples = (data) => {
     chart
       .append("path")
       .datum(d => {
-        const salaries = roleData.map(response => response.salary);
+        const salaries = roleData.map(response => Math.round(response.salary / roundingNumber) * roundingNumber);
         const density = kde(epanechnikov(bandwidth), threshold, salaries);
-        // console.log(density)
+        console.log(density)
         return density;
       })
         .attr("d", d => lineGenerator(d))
