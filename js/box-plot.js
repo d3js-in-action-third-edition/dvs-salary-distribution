@@ -23,7 +23,31 @@ const drawBoxplot = (data) => {
     .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  
+
+  /*********************************/
+  /*    Calculate the quartiles    */
+  /*********************************/
+  // Female quartiles
+  const femalesSalaries = data.filter(d => d.gender === "Female").map(d => d.salary);
+  const femalesQuartilesScale = d3.scaleQuantile()
+    .domain(femalesSalaries)
+    .range([0, 1, 2, 3]);
+
+  const femalesQuartiles = femalesQuartilesScale.quantiles();
+  const femalesExtent = d3.extent(femalesSalaries);
+  console.log("Women's boxplot boundaries:", femalesExtent, "quartiles:", femalesQuartiles);
+
+  // Male quartiles
+  const malesSalaries = data.filter(d => d.gender === "Male").map(d => d.salary);
+  const malesQuartilesScale = d3.scaleQuantile()
+    .domain(malesSalaries)
+    .range([0, 1, 2, 3]);
+
+  const malesQuartiles = malesQuartilesScale.quantiles();
+  const malesExtent = d3.extent(malesSalaries);
+  console.log("Men's boxplot boundaries:", malesExtent, "quartiles:", malesQuartiles);
+
+
   /****************************/
   /*    Declare the scales    */
   /****************************/
@@ -39,26 +63,6 @@ const drawBoxplot = (data) => {
     .domain([0, maxSalary])
     .range([innerHeight, 0])
     .nice();
-
-  // Female quartiles
-  const femalesSalaries = data.filter(d => d.gender === "Female").map(d => d.salary);
-  const femalesQuartilesScale = d3.scaleQuantile()
-    .domain(femalesSalaries)
-    .range([0, 1, 2, 3]);
-  const femalesMin = d3.min(femalesSalaries);
-  const femalesMax = d3.max(femalesSalaries);
-  const femalesQuartiles = femalesQuartilesScale.quantiles();
-  console.log("boxplot boundaries females", femalesMin, femalesQuartiles, femalesMax);
-
-  // Male quartiles
-  const malesSalaries = data.filter(d => d.gender === "Male").map(d => d.salary);
-  const malesQuartilesScale = d3.scaleQuantile()
-    .domain(malesSalaries)
-    .range([0, 1, 2, 3]);
-  const malesMin = d3.min(malesSalaries);
-  const malesMax = d3.max(malesSalaries);
-  const malesQuartiles = malesQuartilesScale.quantiles();
-  console.log("boxplot boundaries males", malesMin, malesQuartiles, malesMax);
 
 
   /**************************/

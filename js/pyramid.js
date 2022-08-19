@@ -28,7 +28,7 @@ const drawPyramid = (data) => {
   /*    Generate the bins    */
   /***************************/
   const bins = d3.bin()
-    .domain([0, 240000])
+    // .domain([0, 240000]) => check if domain is necessary
     .value(d => d.salary)(data);
 
   const femalesData = data.filter(d => d.gender === "Female");

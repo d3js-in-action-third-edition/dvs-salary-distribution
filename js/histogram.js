@@ -28,7 +28,6 @@ const drawHistogram = (data) => {
   /*    Generate the bins    */
   /***************************/
   const bins = d3.bin()
-    .domain([0, 240000])
     .value(d => d.salary)(data);
   console.log("bins", bins);
 
@@ -44,9 +43,9 @@ const drawHistogram = (data) => {
     .range([0, innerWidth]);
 
   // Y scale
-  const maxHeight = d3.max(bins, d => d.length);
+  const maxDatapoints = d3.max(bins, d => d.length);
   const yScale = d3.scaleLinear()
-    .domain([0, maxHeight])
+    .domain([0, maxDatapoints])
     .range([innerHeight, 0])
     .nice();
 
@@ -54,23 +53,22 @@ const drawHistogram = (data) => {
   /*******************************/
   /*    Append the rectangles    */
   /*******************************/
-  const rectWidth = xScale(bins[0].x1) - xScale(bins[0].x0);
   innerChart
     .selectAll("rect")
     .data(bins)
     .join("rect")
       .attr("x", d => xScale(d.x0))
       .attr("y", d => yScale(d.length))
-      .attr("width", rectWidth)
+      .attr("width", d => xScale(d.x1) - xScale(d.x0))
       .attr("height", d => innerHeight - yScale(d.length))
       .attr("fill", slateGray)
       .attr("stroke", white)
       .attr("stroke-width", 2);
 
 
-  /**************************/
-  /*      Add the axes      */
-  /**************************/
+  /*******************************/
+  /*   Add the axes and labels   */
+  /*******************************/
   const bottomAxis = d3.axisBottom(xScale);
   innerChart
     .append("g")

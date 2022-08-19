@@ -42,7 +42,7 @@ const drawSmallMultiples = (data) => {
   roles.forEach(role => {
     const roleData = data.filter(d => d.role === role.id);
     role.bins = d3.bin()
-      .domain([0, 240000])
+      // .domain([0, 240000]) => check if domain is necessary
       .thresholds(12)
       .value(d => d.salary)(roleData);
     role["numPeople"] = roleData.length;
