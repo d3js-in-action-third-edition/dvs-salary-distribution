@@ -23,10 +23,11 @@ const drawBoxplot = (data) => {
     .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-
+  
   /*********************************/
   /*    Calculate the quartiles    */
   /*********************************/
+  
   // Female quartiles
   const femalesSalaries = data.filter(d => d.gender === "Female").map(d => d.salary);
   const femalesQuartilesScale = d3.scaleQuantile()
@@ -53,9 +54,10 @@ const drawBoxplot = (data) => {
   /****************************/
   // X scale
   const genders = ["Female", "Male"];
-  const xScale = d3.scaleBand()
+  const xScale = d3.scalePoint()
     .domain(genders)
-    .range([0, innerWidth]);
+    .range([0, innerWidth])
+    .padding(0.5);
 
   // Y scale
   const maxSalary = d3.max(data, d => d.salary);
@@ -86,22 +88,22 @@ const drawBoxplot = (data) => {
       .attr("y", 20);
   
 
-  /******************************/
-  /*      Add the boxplots      */
-  /******************************/
+  /*******************************/
+  /*      Draw the boxplots      */
+  /*******************************/
   const boxplotWidth = 60;
   const boxplotStrokeWidth = 3;
+
   genders.forEach(gender => {
     const boxplotContainer = innerChart
       .append("g")
-        .attr("class", `boxplot-${gender}`)
         .attr("stroke", slateGray)
         .attr("stroke-width", boxplotStrokeWidth);
 
     // Append rectangles
     boxplotContainer
       .append("rect")
-        .attr("x", xScale(gender) + xScale.bandwidth()/2 - boxplotWidth/2)
+        .attr("x", xScale(gender) - boxplotWidth/2)
         .attr("y", gender === "Female" ? yScale(femalesQuartiles[2]) : yScale(malesQuartiles[2]))
         .attr("width", boxplotWidth)
         .attr("height", gender === "Female" 
@@ -112,41 +114,42 @@ const drawBoxplot = (data) => {
     // Append median
     boxplotContainer
       .append("line")
-        .attr("x1", xScale(gender) + xScale.bandwidth()/2 - boxplotWidth/2)
-        .attr("x2", xScale(gender) + xScale.bandwidth()/2 + boxplotWidth/2)
+        .attr("x1", xScale(gender) - boxplotWidth/2)
+        .attr("x2", xScale(gender) + boxplotWidth/2)
         .attr("y1", gender === "Female" ? yScale(femalesQuartiles[1]) : yScale(malesQuartiles[1]))
         .attr("y2", gender === "Female" ? yScale(femalesQuartiles[1]) : yScale(malesQuartiles[1]))
         .attr("stroke", gender === "Female" ? womenColor : menColor)
         .attr("stroke-width", 6);
 
     // Append whiskers
+    // Bottom whisker
     boxplotContainer
       .append("line")
-        .attr("x1", xScale(gender) + xScale.bandwidth()/2)
-        .attr("x2", xScale(gender) + xScale.bandwidth()/2)
-        .attr("y1", gender === "Female" ? yScale(femalesMax) : yScale(malesMax))
+        .attr("x1", xScale(gender))
+        .attr("x2", xScale(gender))
+        .attr("y1", gender === "Female" ? yScale(femalesExtent[1]) : yScale(malesExtent[1]))
         .attr("y2", gender === "Female" ? yScale(femalesQuartiles[2]) : yScale(malesQuartiles[2]));
     boxplotContainer
       .append("line")
-        .attr("x1", xScale(gender) + xScale.bandwidth()/2)
-        .attr("x2", xScale(gender) + xScale.bandwidth()/2)
-        .attr("y1", gender === "Female" ? yScale(femalesQuartiles[0]) : yScale(malesQuartiles[0]))
-        .attr("y2", gender === "Female" ? yScale(femalesMin) : yScale(malesMin));
+        .attr("x1", xScale(gender) - boxplotWidth/2)
+        .attr("x2", xScale(gender) + boxplotWidth/2)
+        .attr("y1", gender === "Female" ? yScale(femalesExtent[0]) : yScale(malesExtent[0]))
+        .attr("y2", gender === "Female" ? yScale(femalesExtent[0]) : yScale(malesExtent[0]));
 
-    // Append upper and lower limits
+    // Top whisker
     boxplotContainer
       .append("line")
-        .attr("x1", xScale(gender) + xScale.bandwidth()/2 - boxplotWidth/2)
-        .attr("x2", xScale(gender) + xScale.bandwidth()/2 + boxplotWidth/2)
-        .attr("y1", gender === "Female" ? yScale(femalesMax) : yScale(malesMax))
-        .attr("y2", gender === "Female" ? yScale(femalesMax) : yScale(malesMax));
+        .attr("x1", xScale(gender))
+        .attr("x2", xScale(gender))
+        .attr("y1", gender === "Female" ? yScale(femalesQuartiles[0]) : yScale(malesQuartiles[0]))
+        .attr("y2", gender === "Female" ? yScale(femalesExtent[0]) : yScale(malesExtent[0]));
     boxplotContainer
       .append("line")
-        .attr("x1", xScale(gender) + xScale.bandwidth()/2 - boxplotWidth/2)
-        .attr("x2", xScale(gender) + xScale.bandwidth()/2 + boxplotWidth/2)
-        .attr("y1", gender === "Female" ? yScale(femalesMin) : yScale(malesMin))
-        .attr("y2", gender === "Female" ? yScale(femalesMin) : yScale(malesMin));
+        .attr("x1", xScale(gender) - boxplotWidth/2)
+        .attr("x2", xScale(gender) + boxplotWidth/2)
+        .attr("y1", gender === "Female" ? yScale(femalesExtent[1]) : yScale(malesExtent[1]))
+        .attr("y2", gender === "Female" ? yScale(femalesExtent[1]) : yScale(malesExtent[1]));
 
   });
-
+  
 };
