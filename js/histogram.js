@@ -27,9 +27,9 @@ const drawHistogram = (data) => {
   /***************************/
   /*    Generate the bins    */
   /***************************/
-  const binsGenerator = d3.bin()
+  const binGenerator = d3.bin()
     .value(d => d.salary);
-  const bins = binsGenerator(data)
+  const bins = binGenerator(data);
   console.log("bins", bins);
 
   
@@ -44,9 +44,9 @@ const drawHistogram = (data) => {
     .range([0, innerWidth]);
 
   // Y scale
-  const maxDatapoints = d3.max(bins, d => d.length);
+  const binsMaxLength = d3.max(bins, d => d.length);
   const yScale = d3.scaleLinear()
-    .domain([0, maxDatapoints])
+    .domain([0, binsMaxLength])
     .range([innerHeight, 0])
     .nice();
 
