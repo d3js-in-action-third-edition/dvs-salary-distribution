@@ -119,7 +119,7 @@ const drawBoxplot = (data) => {
         .attr("y1", gender === "Female" ? yScale(femalesQuartiles[1]) : yScale(malesQuartiles[1]))
         .attr("y2", gender === "Female" ? yScale(femalesQuartiles[1]) : yScale(malesQuartiles[1]))
         .attr("stroke", gender === "Female" ? womenColor : menColor)
-        .attr("stroke-width", 6);
+        .attr("stroke-width", 10);
 
     // Append whiskers
     // Bottom whisker

@@ -63,7 +63,7 @@ const drawPyramid = (data) => {
   /****************************/
   const pyramidContainer = innerChart
     .append("g")
-      .attr("stroke", "#faffff")
+      .attr("stroke", white)
       .attr("stroke-width", 2);
 
   pyramidContainer

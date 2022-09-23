@@ -18,7 +18,7 @@ d3.csv("./data/earnings_per_role.csv", d => {
   console.log("data", data);
 
   drawHistogram(data);
-  drawBoxplot(data);
   drawPyramid(data);
-  drawSmallMultiples(data);
+  drawBoxplot(data);
+  drawViolinCharts(data);
 });
