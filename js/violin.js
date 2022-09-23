@@ -60,7 +60,7 @@ const drawViolinCharts = (data) => {
   const xScale = d3.scalePoint()
     .domain(roles.map(d => d.id))
     .range([0, innerWidth])
-    .padding(0.5);
+    .padding(0.7);
 
   // Y scale
   const maxSalary = d3.max(data, d => d.salary);
@@ -116,9 +116,7 @@ const drawViolinCharts = (data) => {
       .append("path")
         .attr("d", areaGenerator(role.bins))
         .attr("fill", slateGray)
-        .attr("fill-opacity", 0.3)
-        .attr("stroke", slateGray)
-        .attr("stroke-width", 2);
+        .attr("fill-opacity", 0.3);
 
     // Append interquartile range
     const width = 8;
