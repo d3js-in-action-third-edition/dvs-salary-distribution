@@ -46,9 +46,7 @@ const drawViolinCharts = (data) => {
     role["quartiles"] = quartilesScale.quantiles();
   });
 
-  roles.sort((a, b) => {
-    return a.mean - b.mean;
-  });
+  roles.sort((a, b) => a.mean - b.mean);
 
   console.log("roles", roles);
 
@@ -91,7 +89,6 @@ const drawViolinCharts = (data) => {
 
     // Append histogram rectangles
     // roleContainer
-    //   .append("g")
     //   .selectAll(`.bar-${role.id}`)
     //   .data(role.bins)
     //   .join("rect")
